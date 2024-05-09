@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static "main/css/styles.css" %}">
+    <link rel="stylesheet" href="{% static "main/css/app.css" %}">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.5/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="{% static "main/js/tailwind.js" %}"></script>
+</head>
+<body>
+    {% include "main/include/header.html" %}
+    <content>
+        <div>
+            <div class="absolute grid gap-6 text-center inset-x-0 z-10 text-white mx-auto w-max">
+                <h1 class="font-bold mt-28 text-5xl">Ключ к вашему новому дому - у нас!</h1>
+                <p class="text-xl max-w-xl mx-auto">Мы поможем вам найти идеальное жилье, которое станет вашим уютным убежищем.</p>
+            </div>
+            <img class=" brightness-75" src="{% static "main/images/home.jpg" %}" />
+        </div>
+        <div class="text-center py-28 grid gap-20">
+            <h1 class="font-bold text-5xl max-w">Наши Апартаменты - Ваши Желания</h1>
+            <div class="flex justify-between max-w-6xl mx-auto w-full">
+                {% for apartment in apartments %}
+                    <div class="card w-80 gb-base-100 shadow-xl">
+                        <figure class="h-52"><img class="w-full h-full object-cover" src="{{apartment.images.first.image.url}}"></figure>
+                        <div class="card-body">
+                            <h2 class="card-title">{{apartment.title}}</h2>
+                            <p class="text-left">{{apartment.description}}</p>
+                            <div class="card-actions justify-end">
+                                <a href="{% url 'detail' apartment.id %}"><button class="btn btn-primary">Подробнее</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="/apartments"><button class="btn w-max mx-auto">Показать больше</button></a>
+        </div>
+        <div class="justify-between mx-auto pt-32 h-max text-center bg-neutral-100" id="about">
+            <h1 class="font-bold text-5xl max-w mb-24">О нас</h1>
+            <div class="mx-auto max-w-5xl flex justify-center items-center gap-20">
+                <div class="max-w-sm grid gap-24">
+                    <p>
+                        Мы - команда профессионалов с многолетним опытом работы в
+                        сфере недвижимости. Наша цель - помочь нашим клиентам найти
+                        идеальное жилье, которое соответствует их потребностям и ожиданиям.
+                    </p>
+                    <p>
+                        Мы ценим каждого клиента и стремимся к долгосрочным отношениям,
+                        основанным на доверии и профессионализме. Мы гарантируем прозрачность
+                        сделок, конфиденциальность информации и высокий уровень сервиса.
+                    </p>
+                    <p>
+                        Наша команда всегда готова выслушать ваши пожелания, ответить на
+                        ваши вопросы и предложить наилучшие решения для вас.
+                    </p>
+                </div>
+                <img class="w-96 rounded-lg shadow-lg" src="{% static "main/images/about.jpg" %}" />
+            </div>
+            <div class="divider divider-neutral max-w-5xl mx-auto pt-32 bg-none my-0"></div>
+        </div>
+        <div class="justify-between mx-auto py-32 h-max bg-neutral-100" id="contact">
+            <div class="flex">
+                <form id="application-form" action="{% url 'post' %}" method="post" class="grid bg-white shadow-md h-max gap-6 mx-auto p-12 rounded">
+                    {% csrf_token %}
+                    <h1 class="text-4xl font-bold">
+                        Свяжитесь с нами!
+                    </h1>
+                    <label class="input input-bordered flex items-center gap-2">
+                        Имя
+                        <input id="name" name="name" type="text" class="grow" />
+                    </label>
+                    <label class="input input-bordered flex items-center gap-2">
+                        +993
+                        <input id="phone" name="phone" type="text" class="grow" />
+                    </label>
+                    <textarea id="description" name="description" class="textarea textarea-bordered h-40" placeholder="Дополнительно..."></textarea>
+                    <button type="submit" class="btn btn-neutral">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </content>
+    {% include "main/include/footer.html" %}
+</body>
+</html>

@@ -1,0 +1,4 @@
+!media/apartment_images
+media/apartment_images/*
+.env
+db.sqlite3

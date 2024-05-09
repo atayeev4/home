@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static "main/css/styles.css" %}">
+    <link rel="stylesheet" href="{% static "main/css/app.css" %}">
+    <link rel="stylesheet" href="{% static "main/css/swiper.css" %}">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.5/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="{% static "main/js/tailwind.js" %}"></script>
+</head>
+<body>
+    {% include "main/include/header.html" %}
+    <div class="py-16 bg-slate-50">
+        <div class="max-w-6xl mx-auto">
+            <swiper-container class="rounded shadow-lg" effect="fade" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+              loop="true">
+              {% for image in apartment.images.all %}
+                <swiper-slide class="rounded overflow-hidden"><img class="w-full h-full object-cover" src="{{image.image.url}}"></swiper-slide>
+              {% endfor %}
+            </swiper-container>
+            <div class="grid gap-10 text-center mt-10">
+                <h1 class="text-4xl">{{apartment.title}}</h1>
+                <p>{{apartment.description}}</p>
+                <div>
+                    <p>Город: {{apartment.city}}</p>
+                    <p>Комнат: {{apartment.rooms}}</p>
+                    <p>Площадь: {{apartment.metres}} м²</p>
+                </div>
+                <a class="w-max mx-auto" href="/#contact"><button class="btn btn-primary w-40">Написать</button></a>
+            </div>
+        </div>
+    </div>
+    {% include "main/include/footer.html" %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+</body>
+</html>

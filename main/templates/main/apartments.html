@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartments</title>
+    <link rel="stylesheet" href="{% static "main/css/styles.css" %}">
+    <link rel="stylesheet" href="{% static "main/css/app.css" %}">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.5/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="{% static "main/js/tailwind.js" %}"></script>
+</head>
+<body>
+    {% include 'main/include/header.html' %}
+    <div>
+        <div class="text-center py-16 bg-slate-50 grid gap-16">
+            <div class="flex justify-center gap-4">
+                <form class="flex gap-4">
+                    <select class="select" name="type">
+                        <option selected disabled value>Тип жилья</option>
+                        {% for type in types %}
+                            <option {% if selectedType == type.id|stringformat:"i" %}selected{% endif %} value="{{type.id}}">{{type.title}}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="select" name="rooms">
+                        <option selected disabled value>Сколько комнат</option>
+                        {% for value in '123456'|make_list %}
+                            <option {% if selectedRooms == value %}selected{% endif %} value="{{value}}">{{value}}</option>
+                        {% endfor %}
+                    </select>
+                    <select class="select" name="city">
+                        <option selected disabled value>Город</option>
+                        {% for city in cities %}
+                            <option {% if selectedCity == city.id|stringformat:"i" %}selected{% endif %} value="{{city.id}}">{{city.title}}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-primary w-32" type="submit">Найти</button>
+                </form>
+                {% if selectedCity or selectedRooms or selectedType %}
+                    <a href="/apartments"><button class="btn w-32">Очистить</button></a>
+                {% endif %}
+            </div>
+            <div class="grid grid-cols-3 justify-items-center max-w-6xl mx-auto w-full gap-20">
+                {% for apartment in apartments %}
+                    <div class="card w-80 gb-base-100 shadow-xl">
+                        <figure class="h-52"><img class="w-full h-full object-cover" src="{{apartment.images.first.image.url}}"></figure>
+                        <div class="card-body">
+                            <h2 class="card-title">{{apartment.title}}</h2>
+                            <p class="text-left">{{apartment.description}}</p>
+                            <div class="card-actions justify-end">
+                                <a href="{% url 'detail' apartment.id %}"><button class="btn btn-primary">Подробнее</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% include 'main/include/footer.html' %}
+</body>
+</html>
